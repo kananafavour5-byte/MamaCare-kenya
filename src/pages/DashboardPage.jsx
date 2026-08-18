@@ -284,110 +284,159 @@ export default function DashboardPage({ profile }) {
       {/* WEEKLY CHECKLIST                                 */}
       {/* ------------------------------------------------ */}
 
-      <section className="mt-5 rounded-card bg-surface border border-purple-line p-5 sm:p-6">
+      {/* --- Interactive checklist --- */}
+<section
+  className={`mt-5 rounded-[24px] border p-5 sm:p-6 shadow-sm ${
+    isPregnant
+      ? 'bg-purple-mist/35 border-purple-line'
+      : 'bg-peach-soft/30 border-peach/20'
+  }`}
+>
+  {/* Header */}
+  <div className="flex items-start justify-between gap-4">
+    <div>
+      <div className="flex items-center gap-2">
+        <span
+          className={`h-9 w-9 rounded-full flex items-center justify-center text-lg ${
+            isPregnant ? 'bg-purple/10' : 'bg-peach/15'
+          }`}
+        >
+          {isPregnant ? '💜' : '💗'}
+        </span>
 
-        <div className="flex items-center justify-between flex-wrap gap-2">
+        <h2 className="font-display text-xl sm:text-2xl text-purple-deep font-semibold">
+          This week's checklist
+        </h2>
+      </div>
 
-          <h2 className="font-display text-lg text-ink font-semibold">
-            ✅ This week's checklist
-          </h2>
+      <p className="text-sm text-ink-soft mt-2 ml-11">
+        {isPregnant
+          ? 'Small steps, healthier you and baby.'
+          : 'Small steps make a big difference.'}
+      </p>
+    </div>
 
-          <span className="font-mono text-xs text-ink-soft uppercase tracking-wide">
-            {doneItems} of {totalItems} done
-          </span>
+    {/* Completion badge */}
+    <span
+      className={`shrink-0 rounded-full px-3 py-1.5 text-xs sm:text-sm font-semibold ${
+        isPregnant
+          ? 'bg-purple/10 text-purple-deep'
+          : 'bg-peach/15 text-peach'
+      }`}
+    >
+      {doneItems} of {totalItems} done
+    </span>
+  </div>
 
-        </div>
+  {/* Progress */}
+  <div className="mt-5">
+    <div className="flex items-center gap-3">
+      <div className="flex-1 h-2.5 rounded-full bg-white/80 overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-500 ${
+            isPregnant ? 'bg-purple' : 'bg-peach'
+          }`}
+          style={{
+            width: `${checklistProgress * 100}%`,
+          }}
+        />
+      </div>
 
+      <span className="text-xs font-semibold text-ink-soft min-w-[35px] text-right">
+        {Math.round(checklistProgress * 100)}%
+      </span>
+    </div>
+  </div>
 
-        {/* Checklist progress */}
+  {/* Checklist items */}
+  <ul className="mt-5 space-y-2.5">
+    {band.focus.map((item) => {
+      const checked = isChecked(item.label)
 
-        <div className="h-2 rounded-full bg-purple-mist mt-3 overflow-hidden">
+      return (
+        <li key={item.label}>
+          <button
+            type="button"
+            onClick={() => toggle(item.label)}
+            className={`w-full flex items-center gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-all duration-200 ${
+              checked
+                ? isPregnant
+                  ? 'bg-mint-soft/70 border-mint/25'
+                  : 'bg-mint-soft/70 border-mint/25'
+                : 'bg-white/75 border-white hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
+            }`}
+          >
+            {/* Check circle */}
+            <span
+              className={`shrink-0 h-7 w-7 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-all ${
+                checked
+                  ? 'bg-mint border-mint text-white'
+                  : 'border-purple-line bg-white/70 text-transparent'
+              }`}
+              aria-hidden="true"
+            >
+              ✓
+            </span>
 
-          <div
-            className="h-full bg-purple transition-all duration-300"
-            style={{
-              width: `${checklistProgress * 100}%`,
-            }}
-          />
+            {/* Item icon */}
+            <span className="shrink-0 text-lg" aria-hidden="true">
+              {item.icon}
+            </span>
 
-        </div>
+            {/* Item text */}
+            <span
+              className={`flex-1 text-sm sm:text-base ${
+                checked
+                  ? 'text-ink-soft line-through'
+                  : 'text-ink font-medium'
+              }`}
+            >
+              {item.label}
+            </span>
 
+            {/* Arrow */}
+            <span
+              className={`shrink-0 text-lg transition-transform ${
+                checked
+                  ? 'text-ink-soft/40'
+                  : 'text-purple-deep/50 group-hover:translate-x-0.5'
+              }`}
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </button>
+        </li>
+      )
+    })}
+  </ul>
 
-        {/* Checklist items */}
+  {/* Encouragement */}
+  <div
+    className={`mt-4 rounded-[16px] px-4 py-3 flex items-center gap-2 ${
+      isPregnant
+        ? 'bg-purple/5 text-purple-deep'
+        : 'bg-peach/10 text-peach'
+    }`}
+  >
+    <span className="text-lg" aria-hidden="true">
+      💗
+    </span>
 
-        <ul className="mt-4 space-y-2">
+    <p className="text-sm font-medium">
+      {checklistProgress === 1
+        ? 'You did it, mama! Every little step counts. 💕'
+        : isPregnant
+          ? "You're doing great, mama. One step at a time."
+          : "You're doing an amazing job. Be gentle with yourself."}
+    </p>
+  </div>
 
-          {band.focus.map((item) => {
-
-            const checked = isChecked(item.label)
-
-            return (
-              <li key={item.label}>
-
-                <button
-                  type="button"
-                  onClick={() => toggle(item.label)}
-                  className={`
-                    w-full
-                    flex
-                    items-center
-                    gap-3
-                    rounded-card
-                    border
-                    px-4
-                    py-3
-                    text-left
-                    transition-colors
-                    ${
-                      checked
-                        ? 'bg-mint-soft border-mint/30 text-ink-soft line-through'
-                        : 'bg-canvas border-purple-line hover:border-purple/40 text-ink'
-                    }
-                  `}
-                >
-
-                  <span
-                    className={`
-                      shrink-0
-                      h-5
-                      w-5
-                      rounded-full
-                      border-2
-                      flex
-                      items-center
-                      justify-center
-                      text-xs
-                      ${
-                        checked
-                          ? 'bg-mint border-mint text-white'
-                          : 'border-purple-line'
-                      }
-                    `}
-                    aria-hidden="true"
-                  >
-                    {checked ? '✓' : ''}
-                  </span>
-
-                  <span>
-                    {item.icon} {item.label}
-                  </span>
-
-                </button>
-
-              </li>
-            )
-
-          })}
-
-        </ul>
-
-
-        <p className="text-xs text-ink-soft mt-3">
-          Saved on this device only — Phase 3 will move this to your account
-          so it's there no matter what device you use.
-        </p>
-
-      </section>
+  <p className="text-[11px] text-ink-soft mt-3">
+    Saved on this device only — Phase 3 will move this to your account so
+    it's there no matter what device you use.
+  </p>
+</section>
 
 
       {/* ------------------------------------------------ */}
