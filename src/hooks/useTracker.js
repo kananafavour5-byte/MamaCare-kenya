@@ -63,6 +63,13 @@ export function useTracker() {
     }))
   }
 
+  const removeFeed = (index) => {
+  updateToday((day) => ({
+    ...day,
+    feeds: day.feeds.filter((_, i) => i !== index),
+  }))
+}
+
   const addSleep = (label, minutes) => {
     updateToday((day) => ({
       ...day,
@@ -76,6 +83,13 @@ export function useTracker() {
     }))
   }
 
+  const removeSleep = (index) => {
+  updateToday((day) => ({
+    ...day,
+    sleeps: day.sleeps.filter((_, i) => i !== index),
+  }))
+}
+
   const incrementDiaper = (type) => {
     updateToday((day) => ({
       ...day,
@@ -86,12 +100,29 @@ export function useTracker() {
     }))
   }
 
+  const decrementDiaper = (type) => {
+  updateToday((day) => ({
+    ...day,
+    diapers: {
+      ...day.diapers,
+      [type]: Math.max(0, day.diapers[type] - 1),
+    },
+  }))
+}
+
   const setMood = (mood) => {
     updateToday((day) => ({
       ...day,
       mood,
     }))
   }
+
+  const clearMood = () => {
+  updateToday((day) => ({
+    ...day,
+    mood: null,
+  }))
+}
 
   const incrementKick = () => {
     updateToday((day) => ({
@@ -108,13 +139,17 @@ export function useTracker() {
   }
 
   return {
-    today,
-    addFeed,
-    addSleep,
-    incrementDiaper,
-    setMood,
-    incrementKick,
-    resetKicks,
-  }
+  today,
+  addFeed,
+  removeFeed,
+  addSleep,
+  removeSleep,
+  incrementDiaper,
+  decrementDiaper,
+  setMood,
+  clearMood,
+  incrementKick,
+  resetKicks,
+}
 }
 

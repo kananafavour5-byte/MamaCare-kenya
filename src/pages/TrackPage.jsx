@@ -9,7 +9,17 @@ const MOODS = [
 ]
 
 export default function TrackPage() {
-  const { today, addFeed, addSleep, incrementDiaper, setMood } = useTracker()
+  const {
+  today,
+  addFeed,
+  removeFeed,
+  addSleep,
+  removeSleep,
+  incrementDiaper,
+  decrementDiaper,
+  setMood,
+  clearMood,
+} = useTracker()
 
   const [feedMinutes, setFeedMinutes] = useState('')
   const [sleepLabel, setSleepLabel] = useState('Nap')
@@ -75,18 +85,28 @@ export default function TrackPage() {
           <ul className="mt-3 space-y-1.5">
             {today.feeds.map((f, i) => (
               <li
-                key={i}
-                className="flex justify-between text-sm text-ink-soft border-b border-purple-line/60 pb-1.5 last:border-b-0"
-              >
-                <span>
-                  {new Date(f.time).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </span>
+  key={i}
+  className="flex items-center justify-between gap-3 text-sm text-ink-soft border-b border-purple-line/60 pb-1.5 last:border-b-0"
+>
+  <div className="flex items-center gap-3">
+    <span>
+      {new Date(f.time).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      })}
+    </span>
 
-                <span>{f.durationMin} min</span>
-              </li>
+    <span>{f.durationMin} min</span>
+  </div>
+
+  <button
+    type="button"
+    onClick={() => removeFeed(i)}
+    className="text-xs text-ink-soft hover:text-alert-deep underline underline-offset-2"
+  >
+    Remove
+  </button>
+</li>
             ))}
           </ul>
         )}
@@ -134,14 +154,24 @@ export default function TrackPage() {
           ) : (
             <ul className="mt-3 space-y-1.5">
               {today.sleeps.map((s, i) => (
-                <li
-                  key={i}
-                  className="flex justify-between text-sm text-ink-soft"
-                >
-                  <span>{s.label}</span>
-                  <span>{s.minutes} min</span>
-                </li>
-              ))}
+  <li
+    key={i}
+    className="flex items-center justify-between gap-3 text-sm text-ink-soft"
+  >
+    <div className="flex items-center gap-3">
+      <span>{s.label}</span>
+      <span>{s.minutes} min</span>
+    </div>
+
+    <button
+      type="button"
+      onClick={() => removeSleep(i)}
+      className="text-xs text-ink-soft hover:text-alert-deep underline underline-offset-2"
+    >
+      Remove
+    </button>
+  </li>
+))}
             </ul>
           )}
 
@@ -198,23 +228,45 @@ export default function TrackPage() {
             {today.diapers.wet} wet · {today.diapers.soiled} soiled
           </p>
 
-          <div className="flex gap-2 mt-4">
-            <button
-              type="button"
-              onClick={() => incrementDiaper('wet')}
-              className="flex-1 rounded-full border border-peach/40 text-ink font-semibold py-2 hover:bg-peach/20 transition-colors"
-            >
-              + Wet
-            </button>
+          <div className="grid grid-cols-2 gap-3 mt-4">
+  <div className="flex items-center gap-2">
+    <button
+      type="button"
+      onClick={() => decrementDiaper('wet')}
+      className="h-9 w-9 rounded-full border border-peach/40 text-ink font-semibold hover:bg-peach/20 transition-colors"
+      aria-label="Remove one wet diaper"
+    >
+      −
+    </button>
 
-            <button
-              type="button"
-              onClick={() => incrementDiaper('soiled')}
-              className="flex-1 rounded-full border border-peach/40 text-ink font-semibold py-2 hover:bg-peach/20 transition-colors"
-            >
-              + Soiled
-            </button>
-          </div>
+    <button
+      type="button"
+      onClick={() => incrementDiaper('wet')}
+      className="flex-1 rounded-full border border-peach/40 text-ink font-semibold py-2 hover:bg-peach/20 transition-colors"
+    >
+      + Wet
+    </button>
+  </div>
+
+  <div className="flex items-center gap-2">
+    <button
+      type="button"
+      onClick={() => decrementDiaper('soiled')}
+      className="h-9 w-9 rounded-full border border-peach/40 text-ink font-semibold hover:bg-peach/20 transition-colors"
+      aria-label="Remove one soiled diaper"
+    >
+      −
+    </button>
+
+    <button
+      type="button"
+      onClick={() => incrementDiaper('soiled')}
+      className="flex-1 rounded-full border border-peach/40 text-ink font-semibold py-2 hover:bg-peach/20 transition-colors"
+    >
+      + Soiled
+    </button>
+  </div>
+</div>
         </section>
 
       </div>
@@ -241,6 +293,16 @@ export default function TrackPage() {
             </button>
           ))}
         </div>
+
+        {today.mood && (
+  <button
+    type="button"
+    onClick={clearMood}
+    className="mt-3 text-xs text-ink-soft hover:text-alert-deep underline underline-offset-2"
+  >
+    Clear today's mood
+  </button>
+)}
 
         <p className="text-xs text-ink-soft mt-3">
           Feeling persistently low for more than two weeks is worth
