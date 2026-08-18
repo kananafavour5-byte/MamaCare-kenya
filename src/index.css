@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color tokens — MamaCare Kenya v2
+     A playful, editorial purple-and-white system inspired by the warmth
+     of sites like The Bump: confident lavender for brand identity, warm
+     pink/peach for delight and personality, deep plum for readable text.
+     Get Help keeps its own distinct raspberry-red so its warning tone
+     never gets lost against an all-purple palette. */
+  --color-canvas: #ffffff;
+  --color-canvas-tint: #faf7ff;
+  --color-surface: #ffffff;
+  --color-ink: #2e1a47;
+  --color-ink-soft: #6b5c7f;
+
+  --color-purple: #7c4ddc;
+  --color-purple-deep: #4f2d99;
+  --color-purple-mist: #f1e9fe;
+  --color-purple-line: #e4d6fb;
+
+  --color-pink: #ff6fa5;
+  --color-pink-soft: #ffe2ee;
+
+  --color-peach: #ff9776;
+  --color-peach-soft: #ffe7dc;
+
+  --color-mint: #35b28f;
+  --color-mint-soft: #e1f6ef;
+
+  --color-alert: #e8506b;
+  --color-alert-deep: #a8324a;
+  --color-alert-soft: #fde7ec;
+
+  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --font-body: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --radius-card: 1.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-purple);
+  outline-offset: 2px;
+}
