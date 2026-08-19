@@ -4,11 +4,15 @@
 trustworthy maternal and newborn information, and find appropriate
 healthcare services when they need professional care.**
 
+**Author:** Favour Kirema
+
 A Phase 1 React frontend project (external API integration, React Router,
-state management, UI/UX). The app is organized around a mother's actual
-journey — what she needs to know, what to do next, and where to get help —
-with a warm, playful purple-and-white visual identity inspired by
-editorial pregnancy/parenting sites like The Bump.
+state management, UI/UX). The app was created from observing the practical
+information and support needs that pregnant women and new mothers can face
+through pregnancy, childbirth, and the early months of caring for a baby.
+MamaCare Kenya is designed around a mother's actual journey — what she
+needs to know, what to do next, how to keep track of important things, and
+where to get help when she needs professional care.
 
 ## Background
 
@@ -20,7 +24,8 @@ information-first tools are already being piloted as one way to help close
 this gap, particularly for maternal and newborn health. MamaCare Kenya sits
 in that space: not a replacement for a clinician, but a trustworthy,
 welcoming first stop for a mother trying to figure out what's normal, what
-to prepare for, and when it's time to seek care.
+to prepare for, how to keep track of her day-to-day experience, and when
+it's time to seek care.
 
 ## Design direction
 
@@ -29,31 +34,35 @@ color, warm pink and peach accents for personality, and mint/purple used
 for content variety. Get Help deliberately keeps its own distinct
 raspberry-red so its warning tone stays meaningful against an otherwise
 all-purple palette. Type pairs a rounded, friendly display face (Fredoka)
-with a warm body sans (Nunito). All imagery is original SVG illustration
-built for this app — no stock photography is embedded in the codebase,
-to avoid shipping images without clear usage rights in a project meant
-for a public GitHub repo.
+with a warm body sans (Nunito). The project uses a combination of original
+SVG illustrations and image assets selected for specific sections of the
+experience, including Guide, Find Care, Get Help, and tracking features.
 
-**An original take on The Bump's most iconic feature:** every pregnancy
-week band carries a "baby is about the size of a ___" fruit comparison,
-shown as a badge on Journey, the Dashboard, and as a scrollable "week by
-week" strip on Home — written in our own words, not reused copy.
+The design is intentionally warm, approachable, and easy to navigate rather
+than clinical or intimidating. The goal is to make important maternal and
+newborn information feel organized and accessible while keeping clear
+visual distinctions between everyday guidance, tracking tools, healthcare
+services, and situations that may require urgent professional attention.
 
-**An original take on The Bump's "browse any week" pattern:** the Journey
-page has a horizontally scrollable stage picker, so a mother can preview
-any week/age's content, not just her current one — with a clear banner and
-one-tap way back to "today" so she never loses track of where she actually
-is.
+The pregnancy journey includes week-by-week fruit-size comparisons to give
+mothers an approachable visual way to understand fetal growth. These
+comparisons appear across Journey, the Dashboard, and the scrollable
+week-by-week section on Home, using original wording and presentation.
+
+The Journey page also includes a horizontally scrollable stage picker,
+allowing a mother to preview content for other pregnancy weeks or newborn
+ages while maintaining a clear indication of her current stage.
 
 ## Features
 
 | Page | What it does |
 |---|---|
 | **Home** | Hero illustration, "I'm pregnant" / "My baby is here" entry choice, a scrollable week-by-week fruit strip, and shortcut cards |
-| **Dashboard** | Tracks **both mother and baby progress** in one place: live stats (current week/age, trimester, days to go, baby's size), the shared journey-path visual, and an interactive, checkable "this week's focus" checklist that persists across visits |
+| **Dashboard** | Tracks **both mother and baby progress** in one place: live stats (current week/age, trimester, days to go, baby's size), the shared journey-path visual, and an interactive, checkable "this week's focus" checklist that persists across visits. The dashboard also provides stage-specific tracking tools for pregnancy and the postpartum/newborn stage. |
 | **Journey** | Full content for any pregnancy week or baby age — what's happening, what to learn, what to prepare, and a focus checklist — with a scrollable stage picker to preview other weeks |
 | **Guide** | 7 browsable categories (Pregnancy, Newborn, Mother Care, Feeding, Sleep, Hygiene, Development) with ~30 short articles in a magazine-style card grid, each source-tagged. Medication Information is nested here. |
 | **Medication Information** | Search a medicine by name and see label data — active ingredient, warnings, pregnancy/lactation info when present — pulled live from the **openFDA** API |
+| **Track** | Stage-specific daily tracking. Pregnancy tracking covers symptoms, weight, sleep, mood, and a copyable health-worker summary, while the Baby Is Here tracker focuses on feeding, sleep, diapers, and mood. Tracking data is saved locally on the user's device. |
 | **Find Care** | Search a curated list of real Kenyan maternal/newborn facilities by name, county, service, or Linda Mama coverage — no API key required |
 | **Get Help** | Kenya emergency numbers, and Mother/Newborn warning-sign lists that say when to seek professional care — visually distinct from the rest of the app on purpose |
 
@@ -73,12 +82,15 @@ npm run build      # production build
 npm run lint        # oxlint
 ```
 
-That's it — every feature, including Find Care, works immediately with no
-API keys or environment setup required.
+That's it — every feature, including Find Care and the local tracking
+features, works immediately with no API keys or environment setup
+required. Medication Information requires an internet connection for live
+openFDA lookups.
 
 ## APIs used
 
 ### openFDA Drug Label API
+
 - `GET https://api.fda.gov/drug/label.json?search=openfda.brand_name:"..."+OR+openfda.generic_name:"..."&limit=5`
 - No key required
 - Powers Medication Information. **Important:** openFDA's own documentation
@@ -88,6 +100,7 @@ API keys or environment setup required.
   disclaimer on every result.
 
 ### Find Care — curated dataset, not a live API call
+
 Find Care deliberately does **not** require a live external API in this
 phase. It filters a curated, static list of 30 real, named Kenyan
 maternal/newborn facilities (`src/data/facilities.js`) across 14 counties,
@@ -129,49 +142,50 @@ medical advice, diagnosis, or treatment.
   requires OAuth2 credentials even for public read access, which isn't a
   good fit for a pure client-side app — a strong candidate to revisit once
   Phase 2 adds a Flask backend that can hold credentials safely.
-- The Dashboard's checklist is saved to the browser's localStorage only —
-  it won't follow a mother to a different device, and clearing browser
-  data resets it. This is the clearest, most natural piece of Phase 1 to
-  move to a real account in Phase 3.
+- The Dashboard's checklist and daily tracking data are saved to the
+  browser's localStorage only — they won't follow a mother to a different
+  device, and clearing browser data resets them. This is the clearest, most
+  natural piece of Phase 1 to move to a real account in Phase 3.
 - A Research feature (PubMed/NCBI) was discussed in planning as a stretch
   goal and is not built in this phase.
 - Journey/Guide content is static, curated data for Phase 1. Phase 2 will
   move it to a database with a Flask API; Phase 3 will add accounts so a
-  mother's chosen stage, saved facilities, medication lookups, and
-  checklist progress persist and become personal — the Dashboard's shape
-  is designed to make that transition straightforward.
+  mother's chosen stage, saved facilities, medication lookups, tracking
+  data, and checklist progress persist and become personal — the
+  Dashboard's shape is designed to make that transition straightforward.
 
 ## Project structure
 
-```
+```text
 src/
 ├── components/
 │   ├── layout/       # Navbar, Footer, PageWrapper
-│   ├── home/          # Journey entry choice, summary card, week ticker
-│   ├── guide/           # Guide category cards
-│   ├── medication/       # Medication search, result, disclaimer
-│   ├── facility/          # Facility search/filter, result card
-│   ├── help/                # Mother / Newborn warning signs
-│   └── shared/                # LoadingSpinner, ErrorMessage, EmptyState,
-│                                 SourceTag, StageScrubber, JourneyPathSignature,
-│                                 and the app's original SVG illustrations
-├── data/               # journeyContent.js, guideData.js, getHelpData.js,
-│                          facilities.js
-├── hooks/               # useMedicationLookup, useFacilityFilter,
-│                          useJourneyProfile, useChecklist (all custom
-│                          hooks wrap their own fetch/loading/error or
-│                          persistence logic, kept out of page components)
-├── lib/                  # stageCalculator.js — pure date/stage math
-└── pages/                 # One page component per route, including
-                              DashboardPage
+│   ├── home/         # Journey entry choice, summary card, week ticker
+│   ├── guide/        # Guide category cards
+│   ├── medication/  # Medication search, result, disclaimer
+│   ├── facility/     # Facility search/filter, result card
+│   ├── help/         # Mother / Newborn warning signs
+│   ├── track/        # Pregnancy and Baby Is Here tracking tools
+│   └── shared/       # LoadingSpinner, ErrorMessage, EmptyState,
+│                       # SourceTag, StageScrubber, JourneyPathSignature,
+│                       # and the app's original SVG illustrations
+├── data/             # journeyContent.js, guideData.js, getHelpData.js,
+│                       # facilities.js
+├── hooks/            # useMedicationLookup, useFacilityFilter,
+│                       # useJourneyProfile, useChecklist, useTracker
+│                       # (all custom hooks wrap their own fetch/loading/error
+│                       # or persistence logic, kept out of page components)
+├── lib/              # stageCalculator.js — pure date/stage math
+└── pages/             # One page component per route, including
+                        # DashboardPage and TrackPage
 ```
 
 State management deliberately stays to `useState`, `useEffect`, custom
-hooks, and props for Phase 1 — no React Context. Three small, focused
-localStorage-backed hooks (`useJourneyProfile`, `useChecklist`) handle the
-only genuinely cross-page state (the mother's stage/dates, and her
-checklist progress), which is simpler than Context for this scale and
-maps naturally onto what Phase 3's real accounts will replace.
+hooks, and props for Phase 1 — no React Context. Focused localStorage-backed
+hooks (`useJourneyProfile`, `useChecklist`, and `useTracker`) handle the
+mother's stage/dates, checklist progress, and daily tracking data. This is
+simpler than Context for this scale and maps naturally onto what Phase 3's
+real accounts will replace.
 
 Code is commented throughout — especially in the hooks, data helpers, and
 anywhere the logic isn't obvious at a glance (e.g. why Find Care doesn't

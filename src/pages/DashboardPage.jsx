@@ -274,6 +274,17 @@ export default function DashboardPage({ profile }) {
 
       {isPregnant && <KickCounter />}
 
+      {isPregnant && (
+  <div className="mt-4">
+    <Link
+      to="/track"
+      className="block w-full text-center rounded-full border border-purple-line bg-white/70 px-5 py-2.5 text-sm font-semibold text-purple-deep hover:bg-white transition-colors"
+    >
+      Track pregnancy today →
+    </Link>
+  </div>
+)}
+
       {!isPregnant && <MoodTracker />}
 
       {!isPregnant && <TodayTracker />}

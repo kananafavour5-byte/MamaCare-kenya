@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import JourneyPage from './pages/JourneyPage.jsx'
 import TrackPage from './pages/TrackPage.jsx'
+import BabyTrackPage from './pages/BabyTrackPage.jsx'
 import GuidePage from './pages/GuidePage.jsx'
 import FindCarePage from './pages/FindCarePage.jsx'
 import GetHelpPage from './pages/GetHelpPage.jsx'
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/" element={<HomePage profile={profile} onSetProfile={setProfile} />} />
           <Route path="/dashboard" element={<DashboardPage profile={profile} />} />
           <Route path="/track" element={<TrackPage />} />
+          <Route path="/baby-track" element={<BabyTrackPage />} />
           <Route path="/journey" element={<JourneyPage profile={profile} />} />
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/find-care" element={<FindCarePage />} />

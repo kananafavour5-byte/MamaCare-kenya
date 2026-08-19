@@ -16,6 +16,10 @@ function emptyDay() {
     },
     mood: null,
     kicks: 0,
+
+    // Track Today additions
+    symptoms: [],
+    weight: '',
   }
 }
 
@@ -41,14 +45,33 @@ export function useTracker() {
   }, [allDays])
 
   const key = todayKey()
-  const today = allDays[key] || emptyDay()
+
+  const today = {
+    ...emptyDay(),
+    ...(allDays[key] || {}),
+    diapers: {
+      ...emptyDay().diapers,
+      ...(allDays[key]?.diapers || {}),
+    },
+  }
 
   const updateToday = (updater) => {
     setAllDays((prev) => ({
       ...prev,
-      [key]: updater(prev[key] || emptyDay()),
+      [key]: updater({
+        ...emptyDay(),
+        ...(prev[key] || {}),
+        diapers: {
+          ...emptyDay().diapers,
+          ...(prev[key]?.diapers || {}),
+        },
+      }),
     }))
   }
+
+  // -----------------------------
+  // FEEDING
+  // -----------------------------
 
   const addFeed = (durationMin) => {
     updateToday((day) => ({
@@ -64,11 +87,15 @@ export function useTracker() {
   }
 
   const removeFeed = (index) => {
-  updateToday((day) => ({
-    ...day,
-    feeds: day.feeds.filter((_, i) => i !== index),
-  }))
-}
+    updateToday((day) => ({
+      ...day,
+      feeds: day.feeds.filter((_, i) => i !== index),
+    }))
+  }
+
+  // -----------------------------
+  // SLEEP
+  // -----------------------------
 
   const addSleep = (label, minutes) => {
     updateToday((day) => ({
@@ -84,11 +111,15 @@ export function useTracker() {
   }
 
   const removeSleep = (index) => {
-  updateToday((day) => ({
-    ...day,
-    sleeps: day.sleeps.filter((_, i) => i !== index),
-  }))
-}
+    updateToday((day) => ({
+      ...day,
+      sleeps: day.sleeps.filter((_, i) => i !== index),
+    }))
+  }
+
+  // -----------------------------
+  // DIAPERS
+  // -----------------------------
 
   const incrementDiaper = (type) => {
     updateToday((day) => ({
@@ -101,14 +132,18 @@ export function useTracker() {
   }
 
   const decrementDiaper = (type) => {
-  updateToday((day) => ({
-    ...day,
-    diapers: {
-      ...day.diapers,
-      [type]: Math.max(0, day.diapers[type] - 1),
-    },
-  }))
-}
+    updateToday((day) => ({
+      ...day,
+      diapers: {
+        ...day.diapers,
+        [type]: Math.max(0, day.diapers[type] - 1),
+      },
+    }))
+  }
+
+  // -----------------------------
+  // MOOD
+  // -----------------------------
 
   const setMood = (mood) => {
     updateToday((day) => ({
@@ -118,11 +153,15 @@ export function useTracker() {
   }
 
   const clearMood = () => {
-  updateToday((day) => ({
-    ...day,
-    mood: null,
-  }))
-}
+    updateToday((day) => ({
+      ...day,
+      mood: null,
+    }))
+  }
+
+  // -----------------------------
+  // KICK COUNTER
+  // -----------------------------
 
   const incrementKick = () => {
     updateToday((day) => ({
@@ -138,18 +177,85 @@ export function useTracker() {
     }))
   }
 
-  return {
-  today,
-  addFeed,
-  removeFeed,
-  addSleep,
-  removeSleep,
-  incrementDiaper,
-  decrementDiaper,
-  setMood,
-  clearMood,
-  incrementKick,
-  resetKicks,
-}
-}
+  // -----------------------------
+  // SYMPTOMS
+  // -----------------------------
 
+  const addSymptom = (symptom) => {
+    const trimmed = symptom.trim()
+
+    if (!trimmed) return
+
+    updateToday((day) => ({
+      ...day,
+      symptoms: day.symptoms.includes(trimmed)
+        ? day.symptoms
+        : [...day.symptoms, trimmed],
+    }))
+  }
+
+  const removeSymptom = (symptom) => {
+    updateToday((day) => ({
+      ...day,
+      symptoms: day.symptoms.filter((item) => item !== symptom),
+    }))
+  }
+
+  const clearSymptoms = () => {
+    updateToday((day) => ({
+      ...day,
+      symptoms: [],
+    }))
+  }
+
+  // -----------------------------
+  // WEIGHT
+  // -----------------------------
+
+  const setWeight = (weight) => {
+    updateToday((day) => ({
+      ...day,
+      weight,
+    }))
+  }
+
+  const clearWeight = () => {
+    updateToday((day) => ({
+      ...day,
+      weight: '',
+    }))
+  }
+
+  return {
+    today,
+
+    // Feeding
+    addFeed,
+    removeFeed,
+
+    // Sleep
+    addSleep,
+    removeSleep,
+
+    // Diapers
+    incrementDiaper,
+    decrementDiaper,
+
+    // Mood
+    setMood,
+    clearMood,
+
+    // Kicks
+    incrementKick,
+    resetKicks,
+
+    // Symptoms
+    addSymptom,
+    removeSymptom,
+    clearSymptoms,
+
+    // Weight
+    setWeight,
+    clearWeight,
+  }
+}
