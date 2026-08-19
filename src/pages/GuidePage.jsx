@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { GUIDE_CATEGORIES } from '../data/guideData.js'
 import GuideCategoryCard from '../components/guide/GuideCategoryCard.jsx'
 import MedicationSearch from '../components/medication/MedicationSearch.jsx'
@@ -7,6 +8,7 @@ import guideHero from '../assets/guide-hero.jpg'
 import featuredPregnancy from '../assets/guide-featured-pregnancy.jpg'
 import featuredFeeding from '../assets/guide-featured-feeding.jpg'
 import featuredMotherCare from '../assets/guide-featured-mother-care.jpg'
+import guideHelpDoctor from '../assets/guide-help-doctor.jpg'
 
 export default function GuidePage() {
   const [openId, setOpenId] = useState(null)
@@ -283,6 +285,52 @@ export default function GuidePage() {
      <div className="mt-8 rounded-[24px] border border-purple-line bg-gradient-to-br from-purple-mist/60 via-pink-soft/30 to-peach-soft/25 p-5 sm:p-6">
   <MedicationSearch />
 </div>
+
+{/* NEED HELP NOW */}
+<section className="mt-6 overflow-hidden rounded-[24px] border border-pink/25 bg-gradient-to-r from-pink-soft/60 via-purple-mist/45 to-peach-soft/50 shadow-sm">
+  <div className="grid md:grid-cols-[42%_58%] items-stretch">
+
+    {/* Doctor image */}
+    <div className="relative min-h-[190px] md:min-h-[240px] overflow-hidden">
+      <img
+        src={guideHelpDoctor}
+        alt="Healthcare professional speaking with a mother"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+      />
+
+      {/* Soft image transition */}
+      <div className="absolute inset-y-0 right-0 w-24 md:w-36 bg-gradient-to-l from-pink-soft/70 via-pink-soft/25 to-transparent" />
+    </div>
+
+    {/* Content */}
+    <div className="flex items-center px-6 py-7 sm:px-8 md:px-10">
+      <div className="max-w-xl">
+
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-pink-deep mb-2">
+          Support is available
+        </p>
+
+        <h2 className="font-display text-2xl sm:text-3xl text-purple-deep font-semibold">
+          Need help now?
+        </h2>
+
+        <p className="text-sm sm:text-base text-ink-soft mt-2 leading-relaxed">
+          Have a health concern or need help finding care? Connect with
+          a healthcare professional or find a nearby facility for support.
+        </p>
+
+        <Link
+  to="/get-help"
+  className="inline-flex items-center justify-center mt-5 rounded-full bg-purple px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-deep transition-colors"
+>
+  Get Help Now →
+</Link>
+
+      </div>
+    </div>
+
+  </div>
+</section>
 
     </div>
   )
