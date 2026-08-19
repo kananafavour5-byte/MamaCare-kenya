@@ -10,17 +10,26 @@ import featuredMotherCare from '../assets/guide-featured-mother-care.jpg'
 
 export default function GuidePage() {
   const [openId, setOpenId] = useState(null)
-  const [showMedication, setShowMedication] = useState(false)
+  
 
   const openCategory = (title) => {
-    const category = GUIDE_CATEGORIES.find(
-      (item) => item.title === title
-    )
+  const category = GUIDE_CATEGORIES.find(
+    (item) => item.title === title
+  )
 
-    if (category) {
-      setOpenId(category.id)
-    }
+  if (category) {
+    setOpenId(category.id)
+
+    setTimeout(() => {
+      document
+        .getElementById(`guide-topic-${category.id}`)
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        })
+    }, 50)
   }
+}
 
   return (
     <div>
@@ -102,13 +111,14 @@ export default function GuidePage() {
 
           {GUIDE_CATEGORIES.map((category, index) => (
             <div
-              key={category.id}
-              className={
-                index === GUIDE_CATEGORIES.length - 1
-                  ? 'lg:col-start-2'
-                  : ''
-              }
-            >
+  key={category.id}
+  id={`guide-topic-${category.id}`}
+  className={
+    index === GUIDE_CATEGORIES.length - 1
+      ? 'lg:col-start-2'
+      : ''
+  }
+>
               <GuideCategoryCard
                 category={category}
                 isOpen={openId === category.id}
@@ -141,7 +151,7 @@ export default function GuidePage() {
           </div>
 
           <span className="text-sm font-semibold text-purple">
-            Helpful resources →
+            Trusted resources →
           </span>
 
         </div>
@@ -270,36 +280,9 @@ export default function GuidePage() {
 
 
       {/* MEDICATION INFORMATION */}
-      <div className="mt-8 rounded-card bg-purple text-white overflow-hidden">
-
-        <button
-          type="button"
-          onClick={() => setShowMedication((v) => !v)}
-          className="w-full flex items-center justify-between gap-3 px-5 py-5 text-left"
-          aria-expanded={showMedication}
-        >
-
-          <span className="font-display text-lg font-semibold">
-            🔎 Medication Information
-          </span>
-
-          <span className="text-lg">
-            {showMedication ? '\u2212' : '+'}
-          </span>
-
-        </button>
-
-        {showMedication && (
-          <div className="px-5 pb-5 bg-surface text-ink rounded-t-card -mx-px">
-
-            <div className="pt-5">
-              <MedicationSearch />
-            </div>
-
-          </div>
-        )}
-
-      </div>
+     <div className="mt-8 rounded-[24px] border border-purple-line bg-gradient-to-br from-purple-mist/60 via-pink-soft/30 to-peach-soft/25 p-5 sm:p-6">
+  <MedicationSearch />
+</div>
 
     </div>
   )
