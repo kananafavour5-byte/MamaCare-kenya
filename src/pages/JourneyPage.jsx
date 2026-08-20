@@ -1,11 +1,18 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import JourneyPathSignature from '../components/shared/JourneyPathSignature.jsx'
 import StageScrubber from '../components/shared/StageScrubber.jsx'
 import EmptyState from '../components/shared/EmptyState.jsx'
 import SourceTag from '../components/shared/SourceTag.jsx'
 import { pregnancyWeekFromDueDate, babyAgeInDays, formatBabyAge } from '../lib/stageCalculator.js'
-import { PREGNANCY_BANDS, NEWBORN_BANDS, findPregnancyBand, findNewbornBand } from '../data/journeyContent.js'
+import {
+  PREGNANCY_BANDS,
+  NEWBORN_BANDS,
+  JOURNEY_TOPICS,
+  findPregnancyBand,
+  findNewbornBand,
+} from '../data/journeyContent.js'
 
 /**
  * JourneyPage — shows the content for one pregnancy/newborn band in full.
@@ -22,6 +29,7 @@ import { PREGNANCY_BANDS, NEWBORN_BANDS, findPregnancyBand, findNewbornBand } fr
  * "you're looking at a different week than today" banner with a way back.
  */
 export default function JourneyPage({ profile }) {
+  const navigate = useNavigate()
   const hasProfile = Boolean(profile.stage && (profile.dueDate || profile.birthDate))
   const isPregnant = profile.stage === 'pregnant'
 
@@ -30,6 +38,7 @@ export default function JourneyPage({ profile }) {
   const actualBand = hasProfile ? (isPregnant ? findPregnancyBand(week) : findNewbornBand(ageDays)) : null
 
   const bands = isPregnant ? PREGNANCY_BANDS : NEWBORN_BANDS
+const navigationItems = isPregnant ? JOURNEY_TOPICS : NEWBORN_BANDS
   const [previewId, setPreviewId] = useState(null)
 
   const band = useMemo(() => {
@@ -59,13 +68,37 @@ export default function JourneyPage({ profile }) {
         {isPregnant ? `Pregnancy \u00b7 Week ${week}` : `Baby \u00b7 ${formatBabyAge(ageDays)}`}
       </p>
 
-      <StageScrubber
-        bands={bands}
-        activeId={actualBand.id}
-        selectedId={band.id}
-        onSelect={(id) => setPreviewId(id === actualBand.id ? null : id)}
-        formatLabel={(b) => isPregnant ? `Wk ${b.range[0]}\u2013${b.range[1]}` : (b.monthLabel || `Day ${b.range[0]}\u2013${b.range[1]}`)}
-      />
+      {isPregnant ? (
+  <StageScrubber
+    bands={JOURNEY_TOPICS}
+    activeId={null}
+    selectedId={null}
+    onSelect={(id) => {
+  const topic = JOURNEY_TOPICS.find((item) => item.id === id)
+
+  if (topic?.title === 'First Trimester') {
+    navigate('/journey/first-trimester')
+  }
+
+  if (topic?.title === 'Second Trimester') {
+    navigate('/journey/second-trimester')
+  }
+}}
+    formatLabel={(topic) => topic.title}
+  />
+) : (
+  <StageScrubber
+    bands={NEWBORN_BANDS}
+    activeId={actualBand.id}
+    selectedId={band.id}
+    onSelect={(id) =>
+      setPreviewId(id === actualBand.id ? null : id)
+    }
+    formatLabel={(b) =>
+      b.monthLabel || `Day ${b.range[0]}–${b.range[1]}`
+    }
+  />
+)}
 
       <div className="flex items-center gap-3 flex-wrap mt-4">
         <h1 className="font-display text-3xl sm:text-4xl text-ink font-semibold">{band.title}</h1>

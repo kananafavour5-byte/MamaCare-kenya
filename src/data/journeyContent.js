@@ -7,6 +7,61 @@
 // the fruit-size comparison popularized by sites like The Bump, written
 // in our own words rather than reusing anyone else's copy.
 
+// Main pregnancy journey topics shown in the horizontal navigation.
+// These topics provide a simple overview; detailed information will be
+// available on dedicated pages in a later step.
+
+export const JOURNEY_TOPICS = [
+  {
+    id: 'first-trimester',
+    title: 'First Trimester',
+    subtitle: 'Early pregnancy & development',
+    icon: '🌱',
+  },
+  {
+    id: 'second-trimester',
+    title: 'Second Trimester',
+    subtitle: 'Growth, movement & changes',
+    icon: '🌿',
+  },
+  {
+    id: 'third-trimester',
+    title: 'Third Trimester',
+    subtitle: 'Growth & preparing for birth',
+    icon: '🌸',
+  },
+  {
+    id: 'antenatal-care',
+    title: 'Antenatal Care',
+    subtitle: 'Your pregnancy checkups',
+    icon: '🩺',
+  },
+  {
+    id: 'tests-scans',
+    title: 'Tests & Scans',
+    subtitle: 'What to expect',
+    icon: '🔎',
+  },
+  {
+    id: 'healthy-pregnancy',
+    title: 'Healthy Pregnancy',
+    subtitle: 'Nutrition & wellbeing',
+    icon: '🥗',
+  },
+  {
+    id: 'preparing-for-birth',
+    title: 'Preparing for Birth',
+    subtitle: 'Plan ahead',
+    icon: '👜',
+  },
+  {
+    id: 'labor-and-birth',
+    title: 'Labor & Birth',
+    subtitle: 'Know what to expect',
+    icon: '👶',
+  },
+]
+
 export const PREGNANCY_BANDS = [
   {
     id: 'p1', range: [1, 4], title: 'Early days',

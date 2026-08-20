@@ -2,7 +2,10 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar.jsx'
 import Footer from './components/layout/Footer.jsx'
 import PageWrapper from './components/layout/PageWrapper.jsx'
+import FirstTrimesterPage from './pages/FirstTrimesterPage.jsx'
+import SecondTrimesterPage from './pages/SecondTrimesterPage.jsx'
 import { useJourneyProfile } from './hooks/useJourneyProfile.js'
+
 
 import HomePage from './pages/HomePage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
@@ -33,6 +36,14 @@ export default function App() {
           <Route path="/track" element={<TrackPage />} />
           <Route path="/baby-track" element={<BabyTrackPage />} />
           <Route path="/journey" element={<JourneyPage profile={profile} />} />
+          <Route
+  path="/journey/first-trimester"
+  element={<FirstTrimesterPage />}
+/>
+          <Route
+  path="/journey/second-trimester"
+  element={<SecondTrimesterPage />}
+/>
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/guide/:categoryId" element={<GuideTopicPage />} />
           <Route path="/find-care" element={<FindCarePage />} />

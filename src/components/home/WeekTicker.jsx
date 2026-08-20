@@ -1,29 +1,8 @@
-import { PREGNANCY_BANDS } from '../../data/journeyContent.js'
+import { Link } from 'react-router-dom'
+import { JOURNEY_TOPICS } from '../../data/journeyContent.js'
 
 export default function WeekTicker({ currentWeek, stage }) {
   const isBabyJourney = stage === 'postpartum'
-
-  const pregnancyMilestones = [
-    'Getting started',
-    'Early growth',
-    'First trimester',
-    'Second trimester',
-    'Baby movement',
-    'Baby growing',
-    'Preparing',
-    'Birth preparation',
-    'Almost there',
-    'Meet your baby',
-  ]
-
-  const babyMilestones = [
-    'First days',
-    'Settling in',
-    'Growing & bonding',
-    'Getting stronger',
-    'More interaction',
-    'Exploring the world',
-  ]
 
   const babyStages = [
     { range: 'Days 0–7', label: 'First days' },
@@ -34,14 +13,45 @@ export default function WeekTicker({ currentWeek, stage }) {
     { range: 'Months 4–6', label: 'Exploring the world' },
   ]
 
-  const stages = isBabyJourney
-    ? babyStages
-    : PREGNANCY_BANDS.map((band, index) => ({
-        range: `Weeks ${band.range[0]}–${band.range[1]}`,
-        label: pregnancyMilestones[index],
-        id: band.id,
-        rangeValues: band.range,
-      }))
+  const pregnancyStages = JOURNEY_TOPICS.map((topic) => ({
+    ...topic,
+    range:
+      topic.id === 'first-trimester'
+        ? 'Weeks 0–13+6'
+        : topic.id === 'second-trimester'
+          ? 'Weeks 14–27+6'
+          : topic.id === 'third-trimester'
+            ? 'Weeks 28+'
+            : topic.id === 'antenatal-care'
+              ? 'Care'
+              : topic.id === 'tests-scans'
+                ? 'Screening'
+                : topic.id === 'healthy-pregnancy'
+                  ? 'Wellbeing'
+                  : topic.id === 'preparing-for-birth'
+                    ? 'Before birth'
+                    : 'During labor',
+  }))
+
+  const stages = isBabyJourney ? babyStages : pregnancyStages
+
+  const isCurrentTrimester = (id) => {
+    if (currentWeek == null) return false
+
+    if (id === 'first-trimester') {
+      return currentWeek <= 13
+    }
+
+    if (id === 'second-trimester') {
+      return currentWeek >= 14 && currentWeek <= 27
+    }
+
+    if (id === 'third-trimester') {
+      return currentWeek >= 28
+    }
+
+    return false
+  }
 
   return (
     <div>
@@ -54,7 +64,7 @@ export default function WeekTicker({ currentWeek, stage }) {
           <p className="text-sm text-ink-soft mt-1">
             {isBabyJourney
               ? "Guidance through your baby's first six months."
-              : "See what's happening at each stage of pregnancy."}
+              : "Explore each stage and topic of your pregnancy journey."}
           </p>
         </div>
 
@@ -64,64 +74,201 @@ export default function WeekTicker({ currentWeek, stage }) {
       <div className="relative overflow-x-auto pb-4 -mx-1 px-1 snap-x">
         <div className="relative flex min-w-max gap-4 pt-4">
 
-          {/* Timeline */}
+          {/* Journey timeline */}
           <div className="absolute left-0 right-0 top-7 h-0.5 bg-purple-line" />
 
           {stages.map((item, index) => {
             const isCurrent = isBabyJourney
               ? false
-              : currentWeek != null &&
-                currentWeek >= item.rangeValues[0] &&
-                currentWeek <= item.rangeValues[1]
+              : isCurrentTrimester(item.id)
 
             return (
               <div
                 key={item.id || index}
-                className="relative z-10 w-36 sm:w-40 shrink-0 snap-start"
+                className="relative z-10 w-52 sm:w-56 shrink-0 snap-start"
               >
                 {/* Timeline marker */}
                 <div className="flex justify-center mb-4">
                   <div
-                    className={`h-6 w-6 rounded-full border-4 border-white transition-all ${
-                      isCurrent
-                        ? 'bg-purple shadow-lg shadow-purple/40 scale-125'
-                        : isBabyJourney
-                          ? 'bg-mint'
-                          : 'bg-pink'
-                    }`}
+                    className={`
+                      h-6
+                      w-6
+                      rounded-full
+                      border-4
+                      border-white
+                      transition-all
+                      ${
+                        isCurrent
+                          ? 'bg-purple shadow-lg shadow-purple/40 scale-125'
+                          : isBabyJourney
+                            ? 'bg-mint'
+                            : 'bg-pink'
+                      }
+                    `}
                   />
                 </div>
 
-                {/* Stage card */}
-                <div
-                  className={`rounded-card border p-4 min-h-28 transition-all duration-200 hover:-translate-y-1 ${
-                    isCurrent
-                      ? 'bg-purple text-white border-purple shadow-lg shadow-purple/25'
-                      : isBabyJourney
-                        ? 'bg-white border-mint/30 shadow-sm hover:shadow-md'
-                        : 'bg-white border-purple-line shadow-sm hover:shadow-md'
-                  }`}
-                >
-                  <p
-                    className={`text-xs font-bold uppercase tracking-wide ${
-                      isCurrent
-                        ? 'text-white/80'
-                        : isBabyJourney
-                          ? 'text-mint'
-                          : 'text-purple'
-                    }`}
-                  >
-                    {item.range}
-                  </p>
+               {/* Journey card */}
+{item.id === 'first-trimester' || item.id === 'second-trimester' ? (
+  <Link
+    to={
+  item.id === 'first-trimester'
+    ? '/journey/first-trimester'
+    : '/journey/second-trimester'
+}
+    className={`
+      block
+      rounded-card
+      border
+      p-4
+      min-h-28
+      transition-all
+      duration-200
+      hover:-translate-y-1
+      ${
+        isCurrent
+          ? 'bg-purple text-white border-purple shadow-lg shadow-purple/25'
+          : 'bg-white border-purple-line shadow-sm hover:shadow-md'
+      }
+    `}
+  >
+    <p
+      className={`
+        text-xs
+        font-bold
+        uppercase
+        tracking-wide
+        ${
+          isCurrent
+            ? 'text-white/80'
+            : 'text-purple'
+        }
+      `}
+    >
+      {item.range}
+    </p>
 
-                  <p
-                    className={`font-display text-base font-semibold mt-2 leading-tight ${
-                      isCurrent ? 'text-white' : 'text-ink'
-                    }`}
-                  >
-                    {item.label}
-                  </p>
-                </div>
+    <p
+      className={`
+        font-display
+        text-base
+        font-semibold
+        mt-2
+        leading-tight
+        ${
+          isCurrent
+            ? 'text-white'
+            : 'text-ink'
+        }
+      `}
+    >
+      {item.title}
+    </p>
+
+    {item.subtitle && (
+      <p
+        className={`
+          text-xs
+          mt-2
+          leading-relaxed
+          ${
+            isCurrent
+              ? 'text-white/75'
+              : 'text-ink-soft'
+          }
+        `}
+      >
+        {item.subtitle}
+      </p>
+    )}
+
+    <p
+      className={`
+        text-xs
+        font-semibold
+        mt-3
+        ${
+          isCurrent
+            ? 'text-white'
+            : 'text-purple'
+        }
+      `}
+    >
+      Explore {item.title.toLowerCase()} →
+    </p>
+  </Link>
+) : (
+  <div
+    className={`
+      rounded-card
+      border
+      p-4
+      min-h-28
+      transition-all
+      duration-200
+      hover:-translate-y-1
+      ${
+        isCurrent
+          ? 'bg-purple text-white border-purple shadow-lg shadow-purple/25'
+          : isBabyJourney
+            ? 'bg-white border-mint/30 shadow-sm hover:shadow-md'
+            : 'bg-white border-purple-line shadow-sm hover:shadow-md'
+      }
+    `}
+  >
+    <p
+      className={`
+        text-xs
+        font-bold
+        uppercase
+        tracking-wide
+        ${
+          isCurrent
+            ? 'text-white/80'
+            : isBabyJourney
+              ? 'text-mint'
+              : 'text-purple'
+        }
+      `}
+    >
+      {item.range}
+    </p>
+
+    <p
+      className={`
+        font-display
+        text-base
+        font-semibold
+        mt-2
+        leading-tight
+        ${
+          isCurrent
+            ? 'text-white'
+            : 'text-ink'
+        }
+      `}
+    >
+      {item.title || item.label}
+    </p>
+
+    {item.subtitle && (
+      <p
+        className={`
+          text-xs
+          mt-2
+          leading-relaxed
+          ${
+            isCurrent
+              ? 'text-white/75'
+              : 'text-ink-soft'
+          }
+        `}
+      >
+        {item.subtitle}
+      </p>
+    )}
+  </div>
+)}
               </div>
             )
           })}
