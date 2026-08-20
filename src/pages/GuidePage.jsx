@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GUIDE_CATEGORIES } from '../data/guideData.js'
 import GuideCategoryCard from '../components/guide/GuideCategoryCard.jsx'
@@ -11,27 +10,8 @@ import featuredMotherCare from '../assets/guide-featured-mother-care.jpg'
 import guideHelpDoctor from '../assets/guide-help-doctor.jpg'
 
 export default function GuidePage() {
-  const [openId, setOpenId] = useState(null)
   
 
-  const openCategory = (title) => {
-  const category = GUIDE_CATEGORIES.find(
-    (item) => item.title === title
-  )
-
-  if (category) {
-    setOpenId(category.id)
-
-    setTimeout(() => {
-      document
-        .getElementById(`guide-topic-${category.id}`)
-        ?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        })
-    }, 50)
-  }
-}
 
   return (
     <div>
@@ -100,38 +80,35 @@ export default function GuidePage() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setOpenId(null)}
-            className="shrink-0 text-sm font-semibold text-purple hover:text-purple-deep transition-colors"
-          >
-            See all topics →
-          </button>
+          <Link
+  to="/guide"
+  className="
+    shrink-0
+    text-sm
+    font-semibold
+    text-purple
+    hover:text-purple-deep
+    transition-colors
+  "
+>
+  See all topics →
+</Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-          {GUIDE_CATEGORIES.map((category, index) => (
-            <div
-  key={category.id}
-  id={`guide-topic-${category.id}`}
-  className={
-    index === GUIDE_CATEGORIES.length - 1
-      ? 'lg:col-start-2'
-      : ''
-  }
->
-              <GuideCategoryCard
-                category={category}
-                isOpen={openId === category.id}
-                onToggle={() =>
-                  setOpenId(
-                    openId === category.id ? null : category.id
-                  )
-                }
-              />
-            </div>
-          ))}
+         {GUIDE_CATEGORIES.map((category, index) => (
+  <div
+    key={category.id}
+    className={
+      index === GUIDE_CATEGORIES.length - 1
+        ? 'lg:col-start-2'
+        : ''
+    }
+  >
+    <GuideCategoryCard category={category} />
+  </div>
+))}
 
         </div>
       </section>
@@ -187,13 +164,12 @@ export default function GuidePage() {
                 pregnancy.
               </p>
 
-              <button
-                type="button"
-                onClick={() => openCategory('Pregnancy')}
-                className="mt-3 text-xs font-semibold text-purple hover:text-purple-deep transition-colors"
-              >
-                Read more →
-              </button>
+             <Link
+  to="/guide/pregnancy"
+  className="mt-3 inline-flex text-xs font-semibold text-purple hover:text-purple-deep transition-colors"
+>
+  View topic →
+</Link>
 
             </div>
 
@@ -226,13 +202,12 @@ export default function GuidePage() {
                 questions.
               </p>
 
-              <button
-                type="button"
-                onClick={() => openCategory('Feeding')}
-                className="mt-3 text-xs font-semibold text-purple hover:text-purple-deep transition-colors"
-              >
-                Read more →
-              </button>
+              <Link
+  to="/guide/feeding"
+  className="mt-3 inline-flex text-xs font-semibold text-purple hover:text-purple-deep transition-colors"
+>
+  View topic →
+</Link>
 
             </div>
 
@@ -265,13 +240,12 @@ export default function GuidePage() {
                 self-care.
               </p>
 
-              <button
-                type="button"
-                onClick={() => openCategory('Mother Care')}
-                className="mt-3 text-xs font-semibold text-purple hover:text-purple-deep transition-colors"
-              >
-                Read more →
-              </button>
+              <Link
+  to="/guide/mother"
+  className="mt-3 inline-flex text-xs font-semibold text-purple hover:text-purple-deep transition-colors"
+>
+  View topic →
+</Link>
 
             </div>
 

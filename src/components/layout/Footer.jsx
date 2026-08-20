@@ -1,15 +1,13 @@
-import footerImage from '../../assets/footer-image.jpg'
+
 
 export default function Footer() {
   return (
-    <footer
-      className="mt-16 relative overflow-hidden border-t border-purple-line bg-cover bg-right"
-      style={{ backgroundImage: `url(${footerImage})` }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 to-white/10" />
+    <footer 
+  className="mt-16 relative overflow-hidden border-t border-purple-deep bg-purple-deep"
+>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid md:grid-cols-[1fr_auto] gap-10 items-start">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6">
+        <div className="grid md:grid-cols-[1fr_auto] gap-6 items-start">
 
           {/* Brand */}
           <div>
@@ -19,17 +17,17 @@ export default function Footer() {
               </div>
 
               <div>
-                <p className="font-display text-2xl text-purple-deep font-semibold">
+                <p className="font-display text-2xl text-white font-semibold">
                   MamaCare Kenya
                 </p>
 
-                <p className="text-sm text-ink-soft mt-0.5">
+                <p className="text-sm text-white/70 mt-0.5">
                   Supporting mothers and babies
                 </p>
               </div>
             </div>
 
-            <p className="mt-5 max-w-2xl text-sm leading-6 text-ink-soft">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
               This app provides general information and is not a substitute for
               professional medical advice, diagnosis, or treatment. Always
               consult a qualified healthcare professional with questions about
@@ -40,8 +38,8 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="mt-10 pt-5 border-t border-purple-line/70">
-          <p className="font-mono text-xs uppercase tracking-wide text-purple-deep/70 leading-relaxed">
+        <div className="mt-6 pt-4 border-t border-white/20">
+          <p className="font-mono text-xs uppercase tracking-wide text-white/60 leading-relaxed">
             Content adapted from WHO, UNICEF, and Kenya Ministry of Health public guidance
           </p>
         </div>

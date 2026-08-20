@@ -12,6 +12,7 @@ import BabyTrackPage from './pages/BabyTrackPage.jsx'
 import GuidePage from './pages/GuidePage.jsx'
 import FindCarePage from './pages/FindCarePage.jsx'
 import GetHelpPage from './pages/GetHelpPage.jsx'
+import GuideTopicPage from './pages/GuideTopicPage.jsx'
 
 /**
  * App — top-level layout (Navbar + Footer always visible) and route table.
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/baby-track" element={<BabyTrackPage />} />
           <Route path="/journey" element={<JourneyPage profile={profile} />} />
           <Route path="/guide" element={<GuidePage />} />
+          <Route path="/guide/:categoryId" element={<GuideTopicPage />} />
           <Route path="/find-care" element={<FindCarePage />} />
           <Route path="/get-help" element={<GetHelpPage />} />
         </Routes>

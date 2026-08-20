@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import guidePregnancy from '../../assets/guide-pregnancy.jpg'
 import guideNewborn from '../../assets/guide-newborn.jpg'
 import guideMotherCare from '../../assets/guide-mother-care.jpg'
@@ -5,7 +7,6 @@ import guideFeeding from '../../assets/guide-feeding.jpg'
 import guideSleep from '../../assets/guide-sleep.jpg'
 import guideHygiene from '../../assets/guide-hygiene.jpg'
 import guideDevelopment from '../../assets/guide-development.jpg'
-import SourceTag from '../shared/SourceTag.jsx'
 
 const CATEGORY_IMAGES = {
   Pregnancy: guidePregnancy,
@@ -61,11 +62,7 @@ const COLOR_CLASSES = {
   },
 }
 
-export default function GuideCategoryCard({
-  category,
-  isOpen,
-  onToggle,
-}) {
+export default function GuideCategoryCard({ category }) {
   const image = CATEGORY_IMAGES[category.title]
 
   const description =
@@ -77,11 +74,11 @@ export default function GuideCategoryCard({
     COLOR_CLASSES.purple
 
   return (
-    <button
-      type="button"
-      onClick={onToggle}
+    <Link
+      to={`/guide/${category.id}`}
       className={`
         group
+        block
         w-full
         text-left
         rounded-[20px]
@@ -92,17 +89,26 @@ export default function GuideCategoryCard({
         shadow-sm
         transition-all
         duration-300
-        ${isOpen ? 'shadow-md' : 'hover:shadow-md'}
+        hover:-translate-y-1
+        hover:shadow-md
+        focus:outline-none
+        focus:ring-2
+        focus:ring-purple/30
       `}
-      aria-expanded={isOpen}
     >
       {/* Image */}
       <div className="relative h-[170px] overflow-hidden">
         <img
           src={image}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          alt={category.title}
+          className="
+            absolute inset-0
+            w-full h-full
+            object-cover
+            transition-transform
+            duration-500
+            group-hover:scale-[1.03]
+          "
         />
 
         {/* Soft image-to-panel fade */}
@@ -124,7 +130,7 @@ export default function GuideCategoryCard({
             </p>
           </div>
 
-          {/* Article action */}
+          {/* Navigate to topic page */}
           <span
             className={`
               shrink-0
@@ -137,36 +143,15 @@ export default function GuideCategoryCard({
               text-[11px]
               font-semibold
               whitespace-nowrap
+              transition-all
+              duration-200
+              group-hover:bg-white
             `}
           >
-            {isOpen
-              ? 'Close ↑'
-              : `${category.articles.length} articles →`}
+            Read more →
           </span>
         </div>
-
-        {/* Expanded articles */}
-        {isOpen && (
-          <div className="mt-4 rounded-[16px] bg-white/85 border border-white px-3.5 py-4 space-y-4">
-            {category.articles.map((article) => (
-              <article
-                key={article.title}
-                className="pt-4 border-t border-ink/10 first:border-t-0 first:pt-0"
-              >
-                <p className="font-semibold text-sm text-ink">
-                  {article.title}
-                </p>
-
-                <p className="text-xs text-ink-soft mt-1 leading-relaxed">
-                  {article.body}
-                </p>
-
-                <SourceTag source={article.source} />
-              </article>
-            ))}
-          </div>
-        )}
       </div>
-    </button>
+    </Link>
   )
 }
