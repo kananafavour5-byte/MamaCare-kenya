@@ -4,6 +4,12 @@ import Footer from './components/layout/Footer.jsx'
 import PageWrapper from './components/layout/PageWrapper.jsx'
 import FirstTrimesterPage from './pages/FirstTrimesterPage.jsx'
 import SecondTrimesterPage from './pages/SecondTrimesterPage.jsx'
+import ThirdTrimesterPage from './pages/ThirdTrimesterPage.jsx'
+import AntenatalCarePage from './pages/AntenatalCarePage.jsx'
+import TestsScansPage from './pages/TestsScansPage.jsx'
+import HealthyPregnancyPage from './pages/HealthyPregnancyPage.jsx'
+import PreparingForBirthPage from './pages/PreparingForBirthPage.jsx'
+import LaborBirthPage from './pages/LaborBirthPage.jsx'
 import { useJourneyProfile } from './hooks/useJourneyProfile.js'
 
 
@@ -43,6 +49,34 @@ export default function App() {
           <Route
   path="/journey/second-trimester"
   element={<SecondTrimesterPage />}
+/>
+          <Route
+  path="/journey/third-trimester"
+  element={<ThirdTrimesterPage />}
+/>
+
+<Route
+  path="/journey/antenatal-care"
+  element={<AntenatalCarePage />}
+/>        
+          <Route
+  path="/journey/tests-scans"
+  element={<TestsScansPage />}
+/>
+
+<Route
+  path="/journey/healthy-pregnancy"
+  element={<HealthyPregnancyPage />}
+/>
+
+<Route
+  path="/journey/preparing-for-birth"
+  element={<PreparingForBirthPage />}
+/>
+
+<Route
+  path="/journey/labor-birth"
+  element={<LaborBirthPage />}
 />
           <Route path="/guide" element={<GuidePage />} />
           <Route path="/guide/:categoryId" element={<GuideTopicPage />} />

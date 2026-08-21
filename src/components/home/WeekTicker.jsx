@@ -109,13 +109,38 @@ export default function WeekTicker({ currentWeek, stage }) {
                 </div>
 
                {/* Journey card */}
-{item.id === 'first-trimester' || item.id === 'second-trimester' ? (
-  <Link
-    to={
-  item.id === 'first-trimester'
-    ? '/journey/first-trimester'
-    : '/journey/second-trimester'
-}
+{item.id === 'first-trimester' ||
+ item.id === 'second-trimester' ||
+ item.id === 'third-trimester' ||
+ item.id === 'antenatal-care' ||
+ item.id === 'tests-scans' ||
+ item.id === 'healthy-pregnancy' ||
+ item.id === 'preparing-for-birth' ||
+ item.id === 'labor-and-birth' ? (
+
+ <Link
+  to={
+    item.id === 'first-trimester'
+      ? '/journey/first-trimester'
+      : item.id === 'second-trimester'
+        ? '/journey/second-trimester'
+        : item.id === 'third-trimester'
+          ? '/journey/third-trimester'
+          : item.id === 'antenatal-care'
+            ? '/journey/antenatal-care'
+            : item.id === 'tests-scans'
+              ? '/journey/tests-scans'
+              : item.id === 'healthy-pregnancy'
+                ? '/journey/healthy-pregnancy'
+                : item.id === 'preparing-for-birth'
+                  ? '/journey/preparing-for-birth'
+                : item.id === 'preparing-for-birth'
+  ? '/journey/preparing-for-birth'
+  : item.id === 'labor-and-birth'
+    ? '/journey/labor-birth'
+    : '/journey/labor-birth'
+  }
+  
     className={`
       block
       rounded-card

@@ -83,6 +83,31 @@ const navigationItems = isPregnant ? JOURNEY_TOPICS : NEWBORN_BANDS
   if (topic?.title === 'Second Trimester') {
     navigate('/journey/second-trimester')
   }
+
+  if (topic?.title === 'Third Trimester') {
+  navigate('/journey/third-trimester')
+}
+
+if (topic?.title === 'Antenatal Care') {
+  navigate('/journey/antenatal-care')
+}
+
+if (topic?.title === 'Tests & Scans') {
+  navigate('/journey/tests-scans')
+}
+
+if (topic?.title === 'Healthy Pregnancy') {
+  navigate('/journey/healthy-pregnancy')
+}
+
+if (topic?.title === 'Preparing for Birth') {
+  navigate('/journey/preparing-for-birth')
+}
+
+if (topic?.title === 'Labor & Birth') {
+  navigate('/journey/labor-birth')
+}
+
 }}
     formatLabel={(topic) => topic.title}
   />
